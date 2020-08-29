@@ -1,0 +1,28 @@
+{
+    "folders":
+    [
+        {
+            "path": "."
+        }
+    ],
+    "build_systems":
+    [
+        {
+            "name": "List",
+            "shell_cmd": "ls -l"
+        },
+        {
+            "name": "Build",
+            "shell_cmd": "cargo build"
+        },
+        {
+            "name": "Release Build",
+            "shell_cmd": "cargo build --release"
+        },
+        {
+            "name": "Test",
+            "shell_cmd": "cargo test"
+        }
+    ]
+}
+
