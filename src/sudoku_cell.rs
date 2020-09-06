@@ -24,24 +24,24 @@ impl SudokuCell {
 
 impl fmt::Debug for SudokuCell {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        if let Some(v) = self.cur_val {
-            return write!(
+        return if let Some(v) = self.cur_val {
+            write!(
                 f,
                 "Row: {} Column: {} Subgrid: {} Value: {}",
                 self.row + 1,
                 self.col + 1,
                 self.subgrid + 1,
                 v
-            );
+            )
         } else {
-            return write!(
+            write!(
                 f,
                 "Row: {} Column: {} Subgrid: {} Possible Values: {}",
                 self.row + 1,
                 self.col + 1,
                 self.subgrid + 1,
                 self.possible_vals
-            );
+            )
         }
     }
 }

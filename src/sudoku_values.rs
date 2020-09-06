@@ -2,6 +2,7 @@ use core::ops::Index;
 use core::ops::IndexMut;
 use std::fmt;
 
+///Purpose of this struct
 #[derive(Clone)]
 pub struct SudokuValues {
     pub values: [bool; 9],
@@ -18,13 +19,13 @@ impl SudokuValues {
 impl Index<usize> for SudokuValues {
     type Output = bool;
 
-    fn index<'a>(&'a self, index: usize) -> &bool {
+    fn index(&self, index: usize) -> &bool {
         &self.values[index]
     }
 }
 
 impl IndexMut<usize> for SudokuValues {
-    fn index_mut<'a>(&'a mut self, index: usize) -> &'a mut bool {
+    fn index_mut(&mut self, index: usize) -> &mut bool {
         &mut self.values[index]
     }
 }

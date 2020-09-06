@@ -4,33 +4,50 @@ mod sudoku_values;
 
 use std::fs::File;
 use std::io;
-use std::io::prelude::*;
-use std::io::BufReader;
 use sudoku_grid::SudokuGrid;
+use std::path::Path;
 
 fn main() -> io::Result<()> {
-    let mut sudoku_grid = SudokuGrid::new();
-    let mut input = String::new();
-    io::stdin().read_line(&mut input)?;
+    println!("{0}", "Please enter the puzzle's path");
 
-    let file = File::open(input.trim_end())?;
-    println!("{:?}", input);
-    let mut row_num: usize = 0;
-    {
-        let reader = BufReader::new(file);
-        for line in reader.lines() {
-            match line {
-                Ok(li) => {
-                    match sudoku_grid.parse_line(&li, row_num) {
-                        Ok(_) => row_num += 1,
-                        Err(s) => println!("{:?}", s),
-                    };
+    loop {
+        match read_grid() {
+            Ok(grid) => {
+                match grid.solve_grid() {
+                    Ok(g) => {
+                        println!("{:?}", g);
+                        break;
+                    }
+                    Err(e) => {
+                        println!("{:?}", e);
+                        break;
+                    }
                 }
-                Err(err) => println!("{:?}", err),
+            }
+            Err(e) => {
+                println!("{:?}", e);
             }
         }
     }
-    sudoku_grid.solve_grid(false, 0);
 
     Ok(())
+}
+
+fn read_grid() -> Result<SudokuGrid, String> {
+    let mut input = String::new();
+    let input_result = io::stdin().read_line(&mut input);
+
+    if let Err(_) = input_result {
+        return Err("Failed to read input".to_string());
+    }
+    let path = Path::new(input.trim());
+
+    let file = File::open(path);
+    if let Err(_) = file {
+        return Err("Invalid file".to_string());
+    }
+
+    let final_file = file.unwrap();
+
+    return SudokuGrid::parse_grid(final_file);
 }
